@@ -68,4 +68,5 @@ No content script injection is needed for core functionality -- everything runs 
 
 ## License
 
+Apache 2.0 -- see [LICENSE](LICENSE).
 MIT
