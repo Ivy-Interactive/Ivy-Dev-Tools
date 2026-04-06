@@ -6,11 +6,9 @@ Chrome DevTools extension for inspecting [Ivy](https://github.com/Ivy-Interactiv
 
 ## Features
 
-- **Widget Inspector** -- click to select any Ivy widget and view its type, ID, props, events, and ancestor tree.
-- **Live Prop Editing** -- edit props in a property-grid UI (text, booleans, enums, colors, alignment, size, thickness) and see changes reflected in the running app.
-- **Schema-Driven UI** -- fetches the widget schema from the Ivy dev server for accurate prop types, defaults, and enum values.
-- **Source Location** -- shows where a widget is defined in code, with one-click open in VS Code or JetBrains Rider.
-- **Tendril Detection** -- indicates when a Tendril environment is detected.
+- **Widget Inspector** Click to select any Ivy widget and view its type, ID, props, events, and ancestor tree.
+- **Live Prop Editing** Edit props in a property-grid UI (text, booleans, enums, colors, alignment, size, thickness) and see changes reflected in the running app.
+- **Source Location** Shows where a widget is defined in code, with one-click open in VS Code or JetBrains Rider.
 
 ## Quick Start (Development)
 
@@ -61,31 +59,6 @@ powershell -ExecutionPolicy Bypass -File native-host/install.ps1
 The script will ask for your Chrome extension ID (found on `chrome://extensions`). Restart Chrome after installing.
 
 **Note:** The native host supports both VS Code (`vscode://` protocol) and JetBrains Rider (launches `rider64.exe` directly).
-
-## Project Structure
-
-```
-src/
-  background/       # Service worker (message routing, storage)
-  content/          # Content script (injected into inspected pages)
-  devtools/         # DevTools page (creates the panel)
-  panel/            # React app for the DevTools panel
-    components/     # UI components (WidgetDetails, EditablePropValue, Toolbar)
-    helpers/        # Page eval bridge, widget editing, schema, picker
-    hooks/          # Ivy detection, widget inspection
-    styles/         # CSS (follows Chrome DevTools theme)
-  shared/           # Types, messaging, storage shared across contexts
-native-host/        # Native messaging host for IDE integration
-public/             # Extension manifest
-```
-
-## Tech Stack
-
-- **React 19** + **Zustand** for the panel UI
-- **TanStack Query** for polling/caching
-- **Vite** for building
-- **TypeScript** throughout
-- **Chrome Manifest V3** APIs (`chrome.devtools.inspectedWindow.eval`, native messaging)
 
 ## How It Works
 
