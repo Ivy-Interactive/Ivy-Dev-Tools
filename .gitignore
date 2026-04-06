@@ -1,0 +1,8 @@
+node_modules
+dist
+*.local
+.chrome-dev-profile
+native-host/test-input.bin
+native-host/test-output.bin
+native-host/com.ivy.devtools.file_opener.json
+native-host/rider-open.cmd
