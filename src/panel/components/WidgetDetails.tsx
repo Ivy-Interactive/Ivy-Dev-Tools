@@ -153,6 +153,32 @@ export function WidgetDetails({ widget }: { widget: PickerWidgetInfo }) {
           </div>
         </section>
       )}
+      {/* Children */}
+      {widget.children && widget.children.length > 0 && (
+        <section className="widget-details__section">
+          <div className="widget-details__section-title">Children</div>
+          <div className="widget-ancestors">
+            {widget.children.map((c, i) => {
+              const cShort = c.type.startsWith("Ivy.") ? c.type.slice(4) : c.type;
+              return (
+                <div
+                  key={c.id || i}
+                  className="widget-ancestor widget-ancestor--clickable"
+                  onClick={async () => {
+                    const info = await fetchWidgetById(c.id);
+                    if (info) setSelectedWidget(info);
+                  }}
+                  title="Click to inspect this widget"
+                >
+                  <span className="widget-ancestor__depth">{i + 1}</span>
+                  <span className="widget-ancestor__type">{cShort}</span>
+                  <span className="widget-ancestor__id mono">{c.id}</span>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

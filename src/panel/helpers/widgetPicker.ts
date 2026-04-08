@@ -130,6 +130,22 @@ export const INJECT_WIDGET_PICKER = `
       parent = parent.parentElement ? parent.parentElement.closest("ivy-widget") : null;
     }
 
+    // Direct children
+    var children = [];
+    var childEls = el.querySelectorAll("ivy-widget");
+    var seen = {};
+    for (var ci = 0; ci < childEls.length; ci++) {
+      var ch = childEls[ci].closest("ivy-widget");
+      if (!ch) continue;
+      // Only direct widget children (skip nested grandchildren)
+      var chParent = ch.parentElement ? ch.parentElement.closest("ivy-widget") : null;
+      if (chParent !== el) continue;
+      var cid = ch.getAttribute("id") || "";
+      if (seen[cid]) continue;
+      seen[cid] = true;
+      children.push({ id: cid, type: ch.getAttribute("type") || "" });
+    }
+
     var hasCallSite = cs && cs.filePath;
 
     return {
@@ -140,6 +156,7 @@ export const INJECT_WIDGET_PICKER = `
       parentCallSite: hasCallSite ? null : parentCallSite,
       parentCallSiteWidgetType: hasCallSite ? null : parentCallSiteWidgetType,
       ancestors: ancestors,
+      children: children,
       props: fiberData ? fiberData.props : null,
       events: fiberData ? fiberData.events : []
     };
@@ -269,6 +286,7 @@ export interface PickerWidgetInfo {
   parentCallSite?: CallSite | null;
   parentCallSiteWidgetType?: string | null;
   ancestors: { id: string; type: string }[];
+  children: { id: string; type: string }[];
   props: Record<string, unknown> | null;
   events: string[];
 }

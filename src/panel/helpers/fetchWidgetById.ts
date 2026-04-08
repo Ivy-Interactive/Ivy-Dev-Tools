@@ -86,6 +86,20 @@ export async function fetchWidgetById(widgetId: string): Promise<PickerWidgetInf
     parent = parent.parentElement ? parent.parentElement.closest("ivy-widget") : null;
   }
 
+  var children = [];
+  var childEls = el.querySelectorAll("ivy-widget");
+  var seen = {};
+  for (var ci = 0; ci < childEls.length; ci++) {
+    var ch = childEls[ci].closest("ivy-widget");
+    if (!ch) continue;
+    var chParent = ch.parentElement ? ch.parentElement.closest("ivy-widget") : null;
+    if (chParent !== el) continue;
+    var cid = ch.getAttribute("id") || "";
+    if (seen[cid]) continue;
+    seen[cid] = true;
+    children.push({ id: cid, type: ch.getAttribute("type") || "" });
+  }
+
   var callSite = fiberData ? fiberData.callSite : null;
 
   return {
@@ -96,6 +110,7 @@ export async function fetchWidgetById(widgetId: string): Promise<PickerWidgetInf
     parentCallSite: (!callSite || !callSite.filePath) ? parentCallSite : null,
     parentCallSiteWidgetType: (!callSite || !callSite.filePath) ? parentCallSiteWidgetType : null,
     ancestors: ancestors,
+    children: children,
     props: fiberData ? fiberData.props : null,
     events: fiberData ? fiberData.events : []
   };
