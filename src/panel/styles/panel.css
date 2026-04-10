@@ -483,17 +483,19 @@ body {
 }
 
 .enum-search__list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  width: max-content;
+  max-height: 200px;
   overflow-y: auto;
   background: var(--background-color);
   border: 1px solid var(--selection-color);
   border-top: none;
   border-radius: 0 0 2px 2px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.enum-search__list--fixed {
-  /* Position set via inline style for fixed positioning */
-  overflow-y: auto;
+  z-index: 1000;
 }
 
 .enum-search__item {

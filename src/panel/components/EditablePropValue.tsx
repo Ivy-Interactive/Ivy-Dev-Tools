@@ -327,25 +327,9 @@ function SearchableEnum({
 
   const render = renderItem ?? ((v: string) => v);
 
-  // Track position for fixed dropdown
-  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
-
   const openDropdown = useCallback(() => {
     setOpen(true);
-    setTimeout(() => {
-      inputRef.current?.focus();
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setDropdownStyle({
-          position: "fixed",
-          top: rect.bottom,
-          left: rect.left,
-          width: Math.max(rect.width, 180),
-          maxHeight: 200,
-          zIndex: 1000,
-        });
-      }
-    }, 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
   }, []);
 
   if (!open) {
@@ -372,7 +356,7 @@ function SearchableEnum({
         placeholder="Search…"
         spellCheck={false}
       />
-      <div className="enum-search__list enum-search__list--fixed" ref={listRef} style={dropdownStyle}>
+      <div className="enum-search__list" ref={listRef}>
         {nullable && (
           <div
             className={`enum-search__item mono prop-null ${highlightIndex === -1 ? "enum-search__item--active" : ""}`}
